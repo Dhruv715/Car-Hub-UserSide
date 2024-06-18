@@ -14,7 +14,7 @@ function App() {
   const location = useLocation();
 
   // Check if current route is /login or /signup
-  const isAuthRoute = location.pathname === '/login' || location.pathname === '/signup';
+  const isAuthRoute = location.pathname === '/login' || location.pathname === '/Signup';
 
   return (
     <>

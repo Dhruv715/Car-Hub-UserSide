@@ -5,7 +5,7 @@ function Profile() {
     username: 'John Doe',
     email: 'johndoe@example.com',
     mobileNumber: '+1234567890',
-    profileImage: 'https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-in-shirt-smiles-and-gives-thumbs-up-to-show-approval-png-image_13146336.png'
+    profileImage: 'https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1824'
   };
 
   return (
