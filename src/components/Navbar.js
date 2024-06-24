@@ -122,6 +122,7 @@ function Navbar() {
           <Link to="/cataloge" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
           Catalogue
           </Link>
+          {/* Catalogue */}
           <Link to="/contact" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             Contact
           </Link>
