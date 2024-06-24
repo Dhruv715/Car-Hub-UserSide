@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function Section2() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    carModel: '',
+    location: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('https://carhub-car-selling-website-backend-1.onrender.com/user/Inquiry', formData);
+      console.log(response.data);
+      // Reset form data after successful submission if needed
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        carModel: '',
+        location: '',
+        message: ''
+      });
+      alert('Inquiry submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting inquiry:', error.message);
+      alert('Failed to submit inquiry. Please try again.');
+    }
+  };
+
   return (
-    <div className='flex flex-col lg:flex-row  md:flex-row overflow-hidden' style={{width:'100%'}}>
+    <div className='flex flex-col lg:flex-row  md:flex-row overflow-hidden' style={{ width: '100%' }}>
       <div className='lg:w-1/2 text-center md:w-1/2 sm:w-full sm:text-center'>
-        <img 
-          className='my-3 mx-auto w-4/5 md:w-3/5 sm:mx-auto sm:w-1/2' 
-          style={{ borderRadius: '20px' }} 
-          src="https://www.carandbike.com/_next/image?url=https%3A%2F%2Fimages.carandbike.com%2Fcms%2Farticles%2F3200384%2FUsed_Cars_2022_07_09_T04_31_45_408_Z_cd18a5954b.webp&w=3840&q=75" 
-          alt="Car" 
+        <img
+          className='my-3 mx-auto w-4/5 md:w-3/5 sm:mx-auto sm:w-1/2'
+          style={{ borderRadius: '20px' }}
+          src="https://www.carandbike.com/_next/image?url=https%3A%2F%2Fimages.carandbike.com%2Fcms%2Farticles%2F3200384%2FUsed_Cars_2022_07_09_T04_31_45_408_Z_cd18a5954b.webp&w=3840&q=75"
+          alt="Car"
         />
         <h2 className='lg:text-lg sm:text-base md:text-base font-bold text-gray-400 ps-5' style={{ fontFamily: 'Poppins' }}>
           Your Premier Choice for Buying and Selling Cars
@@ -27,27 +62,27 @@ function Section2() {
         <h1 className='text-5xl lg:text-7xl sm:text-5xl mt-5 font-extrabold ps-5 pe-4' style={{ fontFamily: 'Poppins', color: 'white' }}>
           Get Started Today
         </h1>
-        <div className='tripform text-center mx-auto w-full sm:mx-auto sm:w-2/3 md:w-3/3 lg:w-2/3 ms-1 my-5'>
+        <form onSubmit={handleSubmit} className='tripform text-center mx-auto w-full sm:mx-auto sm:w-2/3 md:w-3/3 lg:w-2/3 ms-1 my-5'>
           <div className="flex w-full sm:w-2/2 md:2/2 my-2">
-            <input type="text" className='w-full sm:w-1/2 m-2' placeholder='Your Name' />
-            <input type="email" className='w-full sm:w-1/2 m-2' placeholder='Email Address' />
+            <input type="text" className='w-full sm:w-1/2 m-2' placeholder='Your Name' name='name' value={formData.name} onChange={handleChange} required />
+            <input type="email" className='w-full sm:w-1/2 m-2' placeholder='Email Address' name='email' value={formData.email} onChange={handleChange} required />
           </div>
           <div className='flex w-full sm:w-2/2 my-2'>
-            <input type="tel" className='w-full m-2' placeholder='Phone Number' />
+            <input type="tel" className='w-full m-2' placeholder='Phone Number' name='phone' value={formData.phone} onChange={handleChange} required />
           </div>
           <div className="flex w-full sm:w-2/2 my-2">
-            <input type="text" placeholder='Car Model' className='w-full m-2' />
+            <input type="text" placeholder='Car Model' className='w-full m-2' name='carModel' value={formData.carModel} onChange={handleChange} required />
           </div>
           <div className="flex w-full sm:w-2/2 my-2">
-            <input type="text" placeholder='Location' className='w-full m-2' />
+            <input type="text" placeholder='Location' className='w-full m-2' name='location' value={formData.location} onChange={handleChange} required />
           </div>
           <div className="flex w-full sm:w-2/2 my-2">
-            <input type="text" placeholder='Message' className='w-full m-2' />
+            <input type="text" placeholder='Message' className='w-full m-2' name='message' value={formData.message} onChange={handleChange} required />
           </div>
           <div className='flex w-full sm:w-2/2 my-2'>
-            <button className='w-full m-2 bg-green-500 text-white'>Submit</button>
+            <button type="submit" className='w-full m-2 bg-green-500 text-white'>Submit</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

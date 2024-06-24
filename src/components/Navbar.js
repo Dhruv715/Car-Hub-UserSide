@@ -1,11 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.get('https://carhub-car-selling-website-backend-1.onrender.com/user/getData', {
+        headers: {
+          'auth': token
+        }
+      })
+      .then(response => {
+        if (response.data.status === 'Success') {
+          setUserData(response.data.Data);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          setUserData(null);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+        setIsLoggedIn(false);
+        setUserData(null);
+      });
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setUserData(null);
   };
 
   return (
@@ -26,21 +60,32 @@ function Navbar() {
           <Link to="/about" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             About Us
           </Link>
-          <Link to="/cateloge" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+          <Link to="/cataloge" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             Catalog
           </Link>
           <Link to="/contact" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             Contact
           </Link>
-          <Link to="/login" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
-            Login
-          </Link>
-          <Link to="/Signup" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
-          Signup
-          </Link>
-          <Link to="/profile" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
-            Profile
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link to="/profile" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                <img src={`https://carhub-car-selling-website-backend-1.onrender.com/images/${userData.profileImage}`} alt="User" className="w-8 h-8 rounded-full inline-block mr-2" />
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                Login
+              </Link>
+              <Link to="/signup" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                Signup
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -74,21 +119,32 @@ function Navbar() {
           <Link to="/about" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             About Us
           </Link>
-          <Link to="/cateloge" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+          <Link to="/cataloge" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             Catalog
           </Link>
           <Link to="/contact" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
             Contact
           </Link>
-          <Link to="/login" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
-            Login
-          </Link>
-          <Link to="/Signup" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
-          Signup
-          </Link>
-          <Link to="/profile" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
-            Profile
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link to="/profile" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                <img src={`https://carhub-car-selling-website-backend-1.onrender.com/images/${userData.profileImage}`}  alt="User" className="w-8 h-8 rounded-full inline-block mr-2" />
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                Login
+              </Link>
+              <Link to="/signup" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
+                Signup
+              </Link>
+            </>
+          )}
         </div>
       )}
     </nav>

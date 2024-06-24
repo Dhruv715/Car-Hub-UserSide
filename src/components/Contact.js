@@ -1,6 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    carModel: '',
+    location: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('https://carhub-car-selling-website-backend-1.onrender.com/user/Inquiry', formData);
+      console.log(response.data);
+      // Reset form data after successful submission if needed
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        carModel: '',
+        location: '',
+        message: ''
+      });
+      alert('Inquiry submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting inquiry:', error.message);
+      alert('Failed to submit inquiry. Please try again.');
+    }
+  };
+
   return (
     <div className="flex flex-col lg:flex-row md:flex-row overflow-hidden w-full">
       <div className="lg:w-1/2 md:w-1/2 sm:w-full text-center bg-gray-200 p-8">
@@ -27,27 +62,27 @@ function Contact() {
         <h1 className="text-5xl lg:text-7xl sm:text-5xl mt-5 font-extrabold ps-5 pe-4" style={{ fontFamily: 'Poppins', color: 'white' }}>
           Get Started Today
         </h1>
-        <div className="tripform text-center mx-auto w-full sm:mx-auto sm:w-2/3 md:w-3/3 lg:w-2/3 ms-1 my-5">
+        <form onSubmit={handleSubmit} className="tripform text-center mx-auto w-full sm:mx-auto sm:w-2/3 md:w-3/3 lg:w-2/3 ms-1 my-5">
           <div className="flex w-full my-2">
-            <input type="text" className="w-full sm:w-1/2 m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" placeholder="Your Name" />
-            <input type="email" className="w-full sm:w-1/2 m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" placeholder="Email Address" />
+            <input type="text" className="w-full sm:w-1/2 m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" placeholder="Your Name" name="name" value={formData.name} onChange={handleChange} required />
+            <input type="email" className="w-full sm:w-1/2 m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" placeholder="Email Address" name="email" value={formData.email} onChange={handleChange} required />
           </div>
           <div className="flex w-full my-2">
-            <input type="tel" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" placeholder="Phone Number" />
+            <input type="tel" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" placeholder="Phone Number" name="phone" value={formData.phone} onChange={handleChange} required />
           </div>
           <div className="flex w-full my-2">
-            <input type="text" placeholder="Car Model" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" />
+            <input type="text" placeholder="Car Model" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" name="carModel" value={formData.carModel} onChange={handleChange} required />
           </div>
           <div className="flex w-full my-2">
-            <input type="text" placeholder="Location" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" />
+            <input type="text" placeholder="Location" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" name="location" value={formData.location} onChange={handleChange} required />
           </div>
           <div className="flex w-full my-2">
-            <textarea placeholder="Message" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600 h-40 resize-none"></textarea>
+            <textarea placeholder="Message" className="w-full m-2 bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600 h-40 resize-none" name="message" value={formData.message} onChange={handleChange} required></textarea>
           </div>
           <div className="flex w-full my-2">
-            <button className="w-full m-2 bg-green-600 hover:bg-green-600 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-green-600 transition duration-300 ease-in-out">Submit</button>
+            <button type="submit" className="w-full m-2 bg-green-600 hover:bg-green-600 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-green-600 transition duration-300 ease-in-out">Submit</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
