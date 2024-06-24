@@ -2,7 +2,6 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./Slider.css"; 
 
 function Sliders() {
   const settings = {
@@ -42,13 +41,14 @@ function Sliders() {
   };
 
   return (
-    <div className="slider-container">
+    <div className="slider-container overflow-hidden" style={{ height: "50vh", width: "100%" ,overflowX:'hidden'}}>
       <Slider {...settings}>
         <div>
           <img
             src="https://images.squarespace-cdn.com/content/v1/57916842bebafb827652722c/2a9d34d3-121e-436a-a73b-03cf1070030a/Prestige+Imports+CEO+Brett+David+Closes+On+Biscayne+Boulevard+Site+Expanding+Prestige+Campus+In+North+Miami"
             className="img-fluid rounded-top semiimg"
             alt="Car Rental"
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
           />
         </div>
         <div>
@@ -56,6 +56,7 @@ function Sliders() {
             src="https://walkthru360.com/wp-content/uploads/2017/11/Jidd-Motors-Chicago-Luxury-Auto-Dealer-Mercedes-Showroom-1005.jpg"
             className="img-fluid rounded-top semiimg"
             alt="Car Rentals"
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
           />
         </div>
         <div>
@@ -63,6 +64,7 @@ function Sliders() {
             src="https://gartec.com/wp-content/uploads/2021/03/Gartec_Lifts_7000_Lookers_3_Web.jpg"
             className="img-fluid rounded-top semiimg"
             alt="Taxi Cab Service"
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
           />
         </div>
       </Slider>
