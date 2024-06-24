@@ -11,7 +11,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Verify from './components/Verify';
 import CarDetails from './components/CarDetails';
-
+import { Analytics } from "@vercel/analytics/react"
 function App() {
   const location = useLocation();
 
@@ -33,6 +33,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
       </Routes>
       {!isAuthRoute && <Footer />}
+      <Analytics />
     </>
   );
 }
