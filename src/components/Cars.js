@@ -65,7 +65,7 @@ function Cars() {
   return (
     <div className="container mx-auto py-10 px-4 lg:px-0 lg:w-4/5">
       <h1 className="text-3xl font-bold mb-6 text-center">Our Catalogue</h1>
-
+{/* Catalogue */}
       <div className="mb-6 flex flex-col lg:flex-row lg:justify-between lg:items-center">
         <input
           type="text"
