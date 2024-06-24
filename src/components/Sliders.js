@@ -48,7 +48,7 @@ function Sliders() {
             src="https://images.squarespace-cdn.com/content/v1/57916842bebafb827652722c/2a9d34d3-121e-436a-a73b-03cf1070030a/Prestige+Imports+CEO+Brett+David+Closes+On+Biscayne+Boulevard+Site+Expanding+Prestige+Campus+In+North+Miami"
             className="img-fluid rounded-top semiimg"
             alt="Car Rental"
-            style={{ height: "70vh", width: "100%", objectFit: "cover" }}
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
           />
         </div>
         <div>
