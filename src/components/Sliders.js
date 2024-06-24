@@ -41,7 +41,7 @@ function Sliders() {
   };
 
   return (
-    <div className="slider-container overflow-hidden" style={{ height: "70vh", width: "100%" ,overflowX:'hidden'}}>
+    <div className="slider-container overflow-hidden" style={{ height: "50vh", width: "100%" ,overflowX:'hidden'}}>
       <Slider {...settings}>
         <div>
           <img
@@ -56,7 +56,7 @@ function Sliders() {
             src="https://walkthru360.com/wp-content/uploads/2017/11/Jidd-Motors-Chicago-Luxury-Auto-Dealer-Mercedes-Showroom-1005.jpg"
             className="img-fluid rounded-top semiimg"
             alt="Car Rentals"
-            style={{ height: "70vh", width: "100%", objectFit: "cover" }}
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
           />
         </div>
         <div>
@@ -64,7 +64,7 @@ function Sliders() {
             src="https://gartec.com/wp-content/uploads/2021/03/Gartec_Lifts_7000_Lookers_3_Web.jpg"
             className="img-fluid rounded-top semiimg"
             alt="Taxi Cab Service"
-            style={{ height: "70vh", width: "100%", objectFit: "cover" }}
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
           />
         </div>
       </Slider>
