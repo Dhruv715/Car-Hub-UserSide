@@ -26,7 +26,7 @@ function CarDetails() {
         // Introduce a delay of 500ms before setting loading to false
         setTimeout(() => {
             setLoading(false);
-          }, 1000);
+          }, 500);
       } catch (error) {
         console.error('Error fetching car:', error);
         setLoading(false);

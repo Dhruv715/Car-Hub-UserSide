@@ -30,7 +30,7 @@ function Cars() {
         setTimeout(() => {
           setLoading(false);
           setFadeIn(true);
-        }, 1000); // Show spinner for at least 1 second
+        }, 500); // Show spinner for at least 1 second
       } catch (error) {
         console.error('Error fetching car data:', error);
         setLoading(false);

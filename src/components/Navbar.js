@@ -70,7 +70,7 @@ function Navbar() {
             <>
               <Link to="/profile" className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
                 <img src={`https://carhub-car-selling-website-backend-1.onrender.com/images/${userData.profileImage}`} alt="User" className="w-8 h-8 rounded-full inline-block mr-2" />
-                Profile
+                {userData.username}
               </Link>
               <button onClick={handleLogout} className="hover:text-green-300 transition duration-300 ease-in-out" style={{ fontFamily: 'Poppins' }}>
                 Logout
