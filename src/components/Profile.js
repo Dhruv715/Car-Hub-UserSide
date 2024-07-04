@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { TailSpin } from 'react-loader-spinner';
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -28,8 +31,21 @@ function Profile() {
     }
   }, []);
 
+  const handleChangePassword = () => {
+    navigate('/changePwd');
+  };
+
   if (loading) {
-    return <div className="flex justify-center items-center min-h-screen w-full bg-black text-white">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full bg-black text-white">
+        <TailSpin
+          height={80}
+          width={80}
+          color="#4fa94d"
+          ariaLabel="tail-spin-loading"
+        />
+      </div>
+    );
   }
 
   if (!user) {
@@ -50,6 +66,14 @@ function Profile() {
           </h2>
           <p className="text-gray-400 text-center" style={{ fontFamily: 'Poppins' }}>{user.email}</p>
           <p className="text-gray-400 text-center" style={{ fontFamily: 'Poppins' }}>{user.mobileNumber}</p>
+          
+          {/* Change Password Button */}
+          <button
+            onClick={handleChangePassword}
+            className="mt-4 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded focus:outline-none"
+          >
+            Change Password
+          </button>
         </div>
       </div>
     </div>

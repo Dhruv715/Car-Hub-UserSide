@@ -9,6 +9,7 @@ function Verify() {
     otp: ''
   });
 
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false); // State for loading indicator
   const navigate = useNavigate(); // Hook for navigation
 
@@ -20,16 +21,33 @@ function Verify() {
     });
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email address is invalid';
+    }
+    if (!formData.otp) {
+      newErrors.otp = 'OTP is required';
+    } else if (!/^\d{6}$/.test(formData.otp)) {
+      newErrors.otp = 'OTP must be exactly 6 digits';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
     setLoading(true); // Start loading
 
     try {
       await axios.post('https://carhub-car-selling-website-backend-1.onrender.com/user/VerifyOTP', formData);
-      navigate('/login'); // Redirect to login page on successfull verification
+      navigate('/login'); // Redirect to login page on successful verification
     } catch (error) {
       console.error('Error verifying user:', error);
-      
+      setErrors({ ...errors, submit: 'Verification failed. Please try again.' });
     } finally {
       setLoading(false); // End loading
     }
@@ -46,36 +64,40 @@ function Verify() {
         </h1>
         <form onSubmit={handleSubmit} className="mt-10 tripform">
           <div className="flex flex-col space-y-4">
-            <input 
-              type="email" 
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" 
-              placeholder="Email Address" 
-            />
-            <input 
-              type="text" 
-              name="otp"
-              value={formData.otp}
-              onChange={handleChange}
-              className="w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" 
-              placeholder="OTP" 
-            />
+            <div>
+              <input 
+                type="email" 
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600 ${errors.email && 'border-red-500'}`} 
+                placeholder="Email Address" 
+              />
+              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            </div>
+            <div>
+              <input 
+                type="text" 
+                name="otp"
+                value={formData.otp}
+                onChange={handleChange}
+                className={`w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600 ${errors.otp && 'border-red-500'}`} 
+                placeholder="OTP" 
+              />
+              {errors.otp && <p className="text-red-500 text-sm">{errors.otp}</p>}
+            </div>
           </div>
+          {errors.submit && <p className="text-red-500 text-sm mt-4 text-center">{errors.submit}</p>}
           <div className="flex w-full mt-6">
             <button 
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 px-4 focus:outline-none transition duration-300 ease-in-out"
+              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 px-4 focus:outline-none transition duration-300 ease-in-out flex items-center justify-center"
             >
               {loading ? (
-                <Circles
-                  height="24"
-                  width="24"
-                  color="#FFFFFF"
-                  ariaLabel="circles-loading"
-                  visible={true}
-                />
+                <>
+                  <Circles height="24" width="24" color="#FFFFFF" ariaLabel="circles-loading" visible={true} />
+                  <span className="ml-2">Verifying...</span>
+                </>
               ) : (
                 'Verify'
               )}

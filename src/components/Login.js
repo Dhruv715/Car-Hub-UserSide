@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Circles } from 'react-loader-spinner';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ function Login() {
     password: ''
   });
 
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); 
 
@@ -19,8 +21,28 @@ function Login() {
     });
   };
 
+  const validate = () => {
+    const newErrors = {};
+    
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email address is invalid';
+    }
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
     setLoading(true);
 
     try {
@@ -56,25 +78,42 @@ function Login() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" 
+              className={`w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600 ${errors.email && 'border-red-500'}`} 
               placeholder="Email Address" 
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             <input 
               type="password" 
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600" 
+              className={`w-full bg-gray-700 text-white rounded-lg py-2 px-4 focus:outline-none focus:bg-gray-600 ${errors.password && 'border-red-500'}`} 
               placeholder="Password" 
             />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
           <div className="flex w-full mt-6">
             <button 
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 px-4 focus:outline-none transition duration-300 ease-in-out"
+              className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 px-4 focus:outline-none transition duration-300 ease-in-out flex items-center justify-center"
             >
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? (
+                <>
+                  <Circles height="24" width="24" color="#FFFFFF" ariaLabel="circles-loading" visible={true} />
+                  <span className="ml-2">Logging in...</span>
+                </>
+              ) : (
+                'Login'
+              )}
             </button>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-gray-400" style={{ fontFamily: 'Poppins' }}>
+              Don't have an account?{' '}
+              <Link to="/signup" className="text-green-500 hover:underline">
+                Sign Up
+              </Link>
+            </p>
           </div>
         </form>
       </div>

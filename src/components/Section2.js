@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Circles } from 'react-loader-spinner';
 
 function Section2() {
   const [formData, setFormData] = useState({
@@ -11,16 +12,22 @@ function Section2() {
     message: ''
   });
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+
     try {
       const response = await axios.post('https://carhub-car-selling-website-backend-1.onrender.com/user/Inquiry', formData);
       console.log(response.data);
-      // Reset form data after successful submission if needed
       setFormData({
         name: '',
         email: '',
@@ -29,10 +36,13 @@ function Section2() {
         location: '',
         message: ''
       });
-      alert('Inquiry submitted successfully!');
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000); // Reset success message after 3 seconds
     } catch (error) {
       console.error('Error submitting inquiry:', error.message);
-      alert('Failed to submit inquiry. Please try again.');
+      setError('Failed to submit inquiry. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,8 +90,25 @@ function Section2() {
             <input type="text" placeholder='Message' className='w-full m-2' name='message' value={formData.message} onChange={handleChange} required />
           </div>
           <div className='flex w-full sm:w-2/2 my-2'>
-            <button type="submit" className='w-full m-2 bg-green-500 text-white'>Submit</button>
+            <button type="submit" className='w-full m-2 bg-green-500 text-white'>
+              {loading ? (
+                <div className="flex items-center space-x-2">
+                  <Circles height="24" width="24" color="#FFFFFF" ariaLabel="circles-loading" visible={true} />
+                  <span>Sending...</span>
+                </div>
+              ) : success ? (
+                <div className="flex items-center space-x-2">
+                  <svg className="animate-bounce h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Sent Successfully</span>
+                </div>
+              ) : (
+                'Submit'
+              )}
+            </button>
           </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </form>
       </div>
     </div>

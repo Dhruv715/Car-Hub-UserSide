@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -40,6 +41,7 @@ function Navbar() {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUserData(null);
+    navigate('/');
   };
 
   return (
